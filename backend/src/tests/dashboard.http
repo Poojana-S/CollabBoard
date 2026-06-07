@@ -1,0 +1,4 @@
+### Dashboard Statistics
+
+GET http://localhost:5000/api/dashboard/stats
+Authorization: Bearer YOUR_TOKEN
