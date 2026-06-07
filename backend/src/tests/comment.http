@@ -1,0 +1,30 @@
+### Create Comment
+
+POST http://localhost:5000/api/comments
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "task":"TASK_ID",
+  "content":"This task needs design review."
+}
+
+###
+
+GET http://localhost:5000/api/comments/task/TASK_ID
+Authorization: Bearer YOUR_TOKEN
+
+###
+
+PUT http://localhost:5000/api/comments/COMMENT_ID
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "content":"Updated comment text."
+}
+
+###
+
+DELETE http://localhost:5000/api/comments/COMMENT_ID
+Authorization: Bearer YOUR_TOKEN
