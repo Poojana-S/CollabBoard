@@ -4,6 +4,7 @@ import authRoutes from "./authRoutes.js";
 import workspaceRoutes from "./workspaceRoutes.js";
 import projectRoutes from "./projectRoutes.js";
 import activityRoutes from "./activityRoutes.js";
+import taskRoutes from "./taskRoutes.js";
 
 const router = Router();
 
@@ -24,6 +25,11 @@ router.use(
 router.use(
   "/projects",
   projectRoutes
+);
+
+router.use(
+  "/tasks",
+  taskRoutes
 );
 
 router.use(

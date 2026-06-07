@@ -1,0 +1,45 @@
+### Create Task
+
+POST http://localhost:5000/api/tasks
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "title":"Design Homepage",
+  "description":"Create homepage wireframe",
+  "project":"PROJECT_ID",
+  "priority":"High",
+  "status":"Todo",
+  "labels":["design","ui"]
+}
+
+###
+
+GET http://localhost:5000/api/tasks/project/PROJECT_ID
+Authorization: Bearer YOUR_TOKEN
+
+###
+
+PUT http://localhost:5000/api/tasks/TASK_ID
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "title":"Updated Task",
+  "priority":"Medium"
+}
+
+###
+
+PATCH http://localhost:5000/api/tasks/TASK_ID/status
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "status":"In Progress"
+}
+
+###
+
+DELETE http://localhost:5000/api/tasks/TASK_ID
+Authorization: Bearer YOUR_TOKEN
