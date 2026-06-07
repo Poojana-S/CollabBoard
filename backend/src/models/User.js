@@ -13,13 +13,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true
+      lowercase: true,
+      trim: true
     },
 
     password: {
       type: String,
       required: true,
-      minlength: 6
+      minlength: 6,
+      select: false
     },
 
     avatar: {
@@ -48,9 +50,9 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.comparePassword =
-  async function (enteredPassword) {
+  async function (password) {
     return await bcrypt.compare(
-      enteredPassword,
+      password,
       this.password
     );
   };

@@ -9,12 +9,29 @@ import errorMiddleware from "./middleware/errorMiddleware.js";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    credentials: true
+  })
+);
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
 
 app.use(morgan("dev"));
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "UP"
+  });
+});
 
 app.use("/api", routes);
 

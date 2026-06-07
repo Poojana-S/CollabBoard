@@ -1,21 +1,31 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-const protect = async (req, res, next) => {
+const protect = async (
+  req,
+  res,
+  next
+) => {
   try {
     let token;
 
     if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
+      req.headers.authorization.startsWith(
+        "Bearer "
+      )
     ) {
-      token = req.headers.authorization.split(" ")[1];
+      token =
+        req.headers.authorization.split(
+          " "
+        )[1];
     }
 
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "Not authorized"
+        message:
+          "Access denied. Token missing."
       });
     }
 
@@ -24,22 +34,31 @@ const protect = async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    req.user = await User.findById(decoded.id).select(
-      "-password"
+    const user = await User.findById(
+      decoded.id
     );
 
-    if (!req.user) {
+    if (!user) {
       return res.status(401).json({
         success: false,
-        message: "User not found"
+        message:
+          "User associated with token not found."
       });
     }
+
+    req.user = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar
+    };
 
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Token invalid"
+      message:
+        "Invalid or expired token."
     });
   }
 };
