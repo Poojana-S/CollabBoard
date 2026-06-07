@@ -1,0 +1,36 @@
+### Create Workspace
+
+POST http://localhost:5000/api/workspaces
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Engineering Team",
+  "description": "Main workspace for engineering"
+}
+
+###
+
+GET http://localhost:5000/api/workspaces
+Authorization: Bearer YOUR_TOKEN
+
+###
+
+GET http://localhost:5000/api/workspaces/WORKSPACE_ID
+Authorization: Bearer YOUR_TOKEN
+
+###
+
+PUT http://localhost:5000/api/workspaces/WORKSPACE_ID
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Updated Workspace",
+  "description": "Updated description"
+}
+
+###
+
+DELETE http://localhost:5000/api/workspaces/WORKSPACE_ID
+Authorization: Bearer YOUR_TOKEN
