@@ -4,12 +4,14 @@ import Workspace from "../models/Workspace.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 
+import { createActivity } from "../services/activityService.js";
+import { ACTIVITY_ACTIONS } from "../config/activityActions.js";
+
 /**
  * POST /api/projects
  */
-
-export const createProject =
-  asyncHandler(async (req, res) => {
+export const createProject = asyncHandler(
+  async (req, res) => {
     const {
       title,
       description,
@@ -18,9 +20,7 @@ export const createProject =
     } = req.body;
 
     const workspaceDoc =
-      await Workspace.findById(
-        workspace
-      );
+      await Workspace.findById(workspace);
 
     if (!workspaceDoc) {
       throw new ApiError(
@@ -55,14 +55,19 @@ export const createProject =
         createdBy: req.user._id
       });
 
+    await createActivity({
+      action:
+        ACTIVITY_ACTIONS.PROJECT_CREATED,
+      user: req.user._id,
+      project: project._id,
+      metadata: {
+        title: project.title
+      }
+    });
+
     const populated =
-      await Project.findById(
-        project._id
-      )
-        .populate(
-          "workspace",
-          "name"
-        )
+      await Project.findById(project._id)
+        .populate("workspace", "name")
         .populate(
           "createdBy",
           "name email avatar"
@@ -78,12 +83,12 @@ export const createProject =
         "Project created successfully",
       data: populated
     });
-  });
+  }
+);
 
 /**
  * GET /api/projects/workspace/:workspaceId
  */
-
 export const getProjectsByWorkspace =
   asyncHandler(async (req, res) => {
     const workspace =
@@ -143,7 +148,6 @@ export const getProjectsByWorkspace =
 /**
  * PUT /api/projects/:id
  */
-
 export const updateProject =
   asyncHandler(async (req, res) => {
     const project =
@@ -191,6 +195,16 @@ export const updateProject =
 
     await project.save();
 
+    await createActivity({
+      action:
+        ACTIVITY_ACTIONS.PROJECT_UPDATED,
+      user: req.user._id,
+      project: project._id,
+      metadata: {
+        title: project.title
+      }
+    });
+
     const populated =
       await Project.findById(
         project._id
@@ -198,6 +212,10 @@ export const updateProject =
         .populate(
           "workspace",
           "name"
+        )
+        .populate(
+          "createdBy",
+          "name email avatar"
         )
         .populate(
           "members",
@@ -215,7 +233,6 @@ export const updateProject =
 /**
  * DELETE /api/projects/:id
  */
-
 export const deleteProject =
   asyncHandler(async (req, res) => {
     const project =
@@ -244,6 +261,16 @@ export const deleteProject =
         "Only workspace owner can delete projects"
       );
     }
+
+    await createActivity({
+      action:
+        ACTIVITY_ACTIONS.PROJECT_DELETED,
+      user: req.user._id,
+      project: project._id,
+      metadata: {
+        title: project.title
+      }
+    });
 
     await project.deleteOne();
 

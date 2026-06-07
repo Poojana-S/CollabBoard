@@ -1,6 +1,32 @@
+### Create Project
 
+POST http://localhost:5000/api/projects
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
 
+{
+  "title":"Website Redesign",
+  "description":"Company redesign project",
+  "workspace":"WORKSPACE_ID"
+}
 
-6a25354578c4f4954028275c
+###
 
-6a25358b78c4f49540282763
+GET http://localhost:5000/api/projects/workspace/WORKSPACE_ID
+Authorization: Bearer YOUR_TOKEN
+
+###
+
+PUT http://localhost:5000/api/projects/PROJECT_ID
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "title":"Updated Project Title",
+  "description":"Updated Description"
+}
+
+###
+
+DELETE http://localhost:5000/api/projects/PROJECT_ID
+Authorization: Bearer YOUR_TOKEN

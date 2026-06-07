@@ -1,0 +1,9 @@
+### My Activities
+
+GET http://localhost:5000/api/activities/user/me
+Authorization: Bearer YOUR_TOKEN
+
+###
+
+GET http://localhost:5000/api/activities/project/PROJECT_ID
+Authorization: Bearer YOUR_TOKEN
